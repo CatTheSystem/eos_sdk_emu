@@ -1,23 +1,30 @@
-name: C/C++ CI
+name: Build EOS SDK Emulator
 
 on:
   push:
     branches: [ "partyvan" ]
   pull_request:
     branches: [ "partyvan" ]
+  workflow_dispatch: # This lets you run it manually from the Actions tab anytime
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive # Ensures nested repository files are downloaded
+
+    - name: Configure CMake
+      run: cmake -B build -S . -A x64 -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build Project
+      run: cmake --build build --config Release
+
+    - name: Upload Compiled Emulator
+      uses: actions/upload-artifact@v4
+      with:
+        name: eossdk-win64-shipping
+        path: build/Release/*.dll
