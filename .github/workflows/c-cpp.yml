@@ -18,7 +18,7 @@ jobs:
         submodules: recursive
 
     - name: Configure CMake
-      run: cmake -B build -S . -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+      run: cmake -B build -S . -A x64 "-DCMAKE_POLICY_VERSION_MINIMUM=3.5" -DCMAKE_BUILD_TYPE=Release -DX64=ON
 
     - name: Build Project
       run: cmake --build build --config Release
