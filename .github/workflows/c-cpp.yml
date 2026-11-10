@@ -5,7 +5,7 @@ on:
     branches: [ "partyvan" ]
   pull_request:
     branches: [ "partyvan" ]
-  workflow_dispatch: # This lets you run it manually from the Actions tab anytime
+  workflow_dispatch: # Allows you to manually trigger a build from the Actions tab
 
 jobs:
   build:
@@ -15,10 +15,10 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
       with:
-        submodules: recursive # Ensures nested repository files are downloaded
+        submodules: recursive
 
     - name: Configure CMake
-      run: cmake -B build -S . -A x64 -DCMAKE_BUILD_TYPE=Release
+      run: cmake -B build -S . -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
     - name: Build Project
       run: cmake --build build --config Release
